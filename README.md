@@ -25,7 +25,7 @@ Este proyecto fue creado y optimizado para ser utilizado en presentaciones en vi
 2. Clona o descarga este repositorio en tu computadora:
 
 ```bash
-git clone https://github.com/tu-usuario/dino-arcade-facial.git
+git clone https://github.com/NicolasCardinaux/Dino-Arcade-Facial.git
 cd dino-arcade-facial
 ```
 
