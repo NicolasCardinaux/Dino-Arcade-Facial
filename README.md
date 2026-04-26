@@ -21,7 +21,7 @@ Este proyecto fue creado y optimizado para ser utilizado en presentaciones en vi
 
 ## 🛠️ Requisitos e Instalación
 
-1. **Python 3.10 o superior** instalado en el sistema.
+1. **Python 3.10** instalado en el sistema (es la versión más adecuada para que todo funcione correctamente).
 2. Clona o descarga este repositorio en tu computadora:
 
 ```bash

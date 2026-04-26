@@ -199,7 +199,7 @@ class CamHandler(BaseHTTPRequestHandler):
             <head>
                 <meta charset="UTF-8">
                 <style>
-                    body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #f7f7f7; font-family: Arial, sans-serif; }
+                    body, html { zoom: 0.82; margin: 0; padding: 0; height: 100%; overflow: hidden; background: #f7f7f7; font-family: Arial, sans-serif; }
                     
                     /* Transiciones suaves para el modo noche */
                     body, html, #game-container, #bottom-cover, #pip, #leaderboard-container, #instructions-container { 
@@ -816,6 +816,18 @@ class CamHandler(BaseHTTPRequestHandler):
                     }
 
                     window.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter') {
+                            let iframe = document.querySelector('iframe');
+                            if (iframe && iframe.contentWindow && iframe.contentWindow.Runner) {
+                                let runner = iframe.contentWindow.Runner.instance_;
+                                if (runner && runner.crashed) {
+                                    let now = Date.now();
+                                    if (window.lastBlinkTime && now - window.lastBlinkTime < 1000) return;
+                                    window.lastBlinkTime = now;
+                                    runner.restart();
+                                }
+                            }
+                        }
                         if (e.key.toLowerCase() === 'c') {
                             if (!isPlayerRegistered) {
                                 showToast("Primero debes agregar tu nombre en el panel izquierdo antes de calibrar.");
@@ -1093,9 +1105,12 @@ def video_loop():
             for hand_landmarks in hand_results.hand_landmarks:
                 tips = [8, 12, 16, 20]
                 pips = [6, 10, 14, 18]
+                wrist = hand_landmarks[0]
                 open_fingers = 0
                 for tip, pip in zip(tips, pips):
-                    if hand_landmarks[tip].y < hand_landmarks[pip].y:
+                    dist_tip = get_distance((hand_landmarks[tip].x, hand_landmarks[tip].y), (wrist.x, wrist.y))
+                    dist_pip = get_distance((hand_landmarks[pip].x, hand_landmarks[pip].y), (wrist.x, wrist.y))
+                    if dist_tip > dist_pip:
                         open_fingers += 1
                 if open_fingers >= 3:
                     is_hand_open = True
@@ -1145,7 +1160,6 @@ def video_loop():
                     if is_mouth_open and not space_pressed:
                         if not game_started:
                             game_started = True
-                            pyautogui.click(x=600, y=300) 
                         pyautogui.keyDown('space')
                         space_pressed = True
                     elif not is_mouth_open and space_pressed:
@@ -1191,7 +1205,7 @@ if __name__ == '__main__':
     server_thread.start()
     
     time.sleep(1)
-    window = webview.create_window('Dino de Chrome - Integrado Definitivo', 'http://localhost:8080', width=1200, height=650, resizable=False)
+    window = webview.create_window('Dino de Chrome - Integrado Definitivo', 'http://localhost:8080', width=1000, height=580, resizable=False)
     webview.start()
 
     # Graceful shutdown to prevent MediaPipe __del__ errors
