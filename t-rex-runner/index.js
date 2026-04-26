@@ -319,13 +319,26 @@
                 for (var sound in Runner.sounds) {
                     var soundSrc =
                         resourceTemplate.getElementById(Runner.sounds[sound]).src;
-                    soundSrc = soundSrc.substr(soundSrc.indexOf(',') + 1);
-                    var buffer = decodeBase64ToArrayBuffer(soundSrc);
+                    
+                    if (soundSrc.startsWith('data:')) {
+                        soundSrc = soundSrc.substr(soundSrc.indexOf(',') + 1);
+                        var buffer = decodeBase64ToArrayBuffer(soundSrc);
 
-                    // Async, so no guarantee of order in array.
-                    this.audioContext.decodeAudioData(buffer, function (index, audioData) {
-                        this.soundFx[index] = audioData;
-                    }.bind(this, sound));
+                        // Async, so no guarantee of order in array.
+                        this.audioContext.decodeAudioData(buffer, function (index, audioData) {
+                            this.soundFx[index] = audioData;
+                        }.bind(this, sound));
+                    } else {
+                        // Fetch the audio file asynchronously
+                        let currentSound = sound;
+                        fetch(soundSrc)
+                            .then(response => response.arrayBuffer())
+                            .then(buffer => this.audioContext.decodeAudioData(buffer))
+                            .then(audioData => {
+                                this.soundFx[currentSound] = audioData;
+                            })
+                            .catch(err => console.error("Error loading sound:", err));
+                    }
                 }
             }
         },
