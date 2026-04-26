@@ -3,7 +3,7 @@
 Una versión interactiva, educativa y altamente inmersiva del clásico juego del Dinosaurio de Chrome (T-Rex Runner), controlada totalmente a través de gestos faciales utilizando Inteligencia Artificial.
 
 
-Este proyecto fue refactorizado y optimizado para ser utilizado en presentaciones en vivo o aulas, integrando un clon local del juego original, un sistema de ranking persistente y una interfaz inmersiva (con soporte de Modo Noche automático) para garantizar una experiencia de usuario perfecta.
+Este proyecto fue creado y optimizado para ser utilizado en presentaciones en vivo o aulas, integrando un clon local del juego original, un sistema de ranking persistente y una interfaz inmersiva (con soporte de Modo Noche automático) para garantizar una experiencia de usuario perfecta.
 
 ## 🌟 Características Principales
 
