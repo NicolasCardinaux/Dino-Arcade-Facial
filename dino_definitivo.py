@@ -199,10 +199,10 @@ class CamHandler(BaseHTTPRequestHandler):
             <head>
                 <meta charset="UTF-8">
                 <style>
-                    body, html { zoom: 0.98; margin: 0; padding: 0; height: 100%; overflow: hidden; background: #f7f7f7; font-family: Arial, sans-serif; }
+                    body, html { zoom: 0.972; margin: 0; padding: 0; height: 100%; overflow: hidden; background: #f7f7f7; font-family: Arial, sans-serif; }
                     
                     /* Transiciones suaves para el modo noche */
-                    body, html, #game-container, #bottom-cover, #pip, #leaderboard-container, #instructions-container { 
+                    body, html, #game-container, #bottom-cover, #pip, #leaderboard-container, #instructions-container, #developer-footer { 
                         transition: background-color 0.5s ease, color 0.5s ease;
                     }
                     
@@ -523,6 +523,27 @@ class CamHandler(BaseHTTPRequestHandler):
                         width: 20px;
                         height: 20px;
                         display: block;
+                    }
+
+                    /* Footer del Desarrollador */
+                    #developer-footer {
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        width: 100%;
+                        text-align: center;
+                        padding: 4px 0;
+                        font-size: 13px;
+                        font-weight: bold;
+                        z-index: 5000;
+                        background: #f7f7f7;
+                        border-top: 2px solid #e0e0e0;
+                        letter-spacing: 0.5px;
+                        color: #333;
+                    }
+                    .dark-mode #developer-footer {
+                        border-color: #555;
+                        color: #fff;
                     }
                 </style>
                 <script>
@@ -865,6 +886,8 @@ class CamHandler(BaseHTTPRequestHandler):
                                 document.getElementById('game-over-overlay').style.backgroundColor = color;
                                 document.getElementById('game-over-overlay').style.color = textColor;
                                 document.getElementById('main-subtitle').style.color = textColor;
+                                document.getElementById('developer-footer').style.backgroundColor = color;
+                                document.getElementById('developer-footer').style.color = textColor;
                                 
                                 if (isDark) {
                                     document.body.classList.add('dark-mode');
@@ -1059,6 +1082,10 @@ class CamHandler(BaseHTTPRequestHandler):
                             <button class="pass-btn pass-btn-ok" onclick="submitPassword()">Aceptar</button>
                         </div>
                     </div>
+                </div>
+                
+                <div id="developer-footer">
+                    Desarrollado por Nicolás Cardinaux - 2026 | Juegos interactivos para alumnos
                 </div>
             </body>
             </html>
